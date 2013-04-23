@@ -1,0 +1,43 @@
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Questions</title>
+</head>
+
+<body>
+  {{> pagecontrol}}
+</body>
+
+<template name="pagecontrol">
+  <!-- <button id="test">TEST</button> -->
+  {{#if idInURL}}
+    {{>list}}
+  {{else}}
+    {{>app}}
+  {{/if}}
+</template>
+
+
+<template name="commentModal">
+  <div class="modal {{HideModal}}" id="myModal">
+    <div class="modal-header">
+      <button type="button" class="close hideComment" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <strong>{{Header.question}}</strong>
+    </div>
+    <div class="modal-body">
+      {{#each Header.comments}}
+          <div class="comment-list">{{this}}
+          {{#if moderator}}
+            <button type='button' class='close deletecomment'>&times;</button>
+          {{/if}}
+          </div>
+      {{/each}}
+      <div class="input-append">
+        <input id="inputcomment" type='text'>
+        <button type="button" id="addComment" class="btn">comment</button>
+      </div>
+    </div>
+    <!-- <div class="modal-footer">
+    </div> -->
+  </div>
+</template> 

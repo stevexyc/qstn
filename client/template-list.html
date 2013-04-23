@@ -1,0 +1,116 @@
+<template name="list">
+  	<div id="topbar">
+      <img src="logo-only-draft.png" style="position:absolute; top:2px;left:2px;">
+  		<span class="title">{{sessionTitle}}</span>
+  		<div id="topmenu" class="btn-group">
+  			<button type="button" class="btn {{popular}}" id="showPopular">Popular</button>
+  			<button type="button" class="btn {{recent}}" id="showRecent">Recent</button>
+        {{#if moderator}}
+        <div class="btn-group hidden-phone">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            Settings
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right">
+            <li><a id="enableFilter">{{FilterOption}}</a></li>
+            {{#if tier2}}
+            <li><a id="enableTopics">{{TopicsOption}}</a></li>
+            <li><a id="enableComments">{{CommentOption}}</a></li>
+            {{/if}}
+            {{#if tier3}}
+            <li><a id="export">Download Report</a></li>
+            {{/if}}
+          </ul>
+        </div>
+        {{/if}}
+    		<button class="btn hidden-phone">{{loginButtons align="right"}}</button>
+  		</div>
+  	</div>
+
+    {{#if topicsEnabled}}
+  		<div id="tagmenu" class="btn-group">
+  			<button class="btn default {{defaultTag}}">All Questions</button>
+  			{{#each topics}}
+  				<button class="btn menutag {{activeTag}}">{{this}}
+            {{#if moderator}}
+                <button class="btn btn-mini deleteTopic" style="line-height:17px;margin-left:3px;">&times;</button>
+            {{/if}}
+          </button> 
+  			{{/each}}
+        {{#if moderator}}
+          {{#if newTopic}}
+              <input id="newtopicname" type="text" placeholder="new topic" style="margin:0 0 0 2px;height:18px;width:120px;"/>
+          {{else}}
+            <button id="newTopic" class="btn">+Topic</button>
+          {{/if}}
+        {{/if}}
+  		</div>
+    {{/if}}
+
+  	<table id="mainlist" class="table table-bordered">
+  	{{#each item}}
+  		<tr>
+  			<td class="totalvotes">
+  				<button class="upvote">
+	  				<div class="arrow {{ifchecked}}"></div>
+	  				<div style="width:33px;"><center><span style="font-weight:bold;font-size:18px;">{{votes}}</span><br><span style="font-size:13px;color:#929aa6;">votes</span></center></div>
+	  				<div></div>
+  				</button>
+  			</td>
+  			<td style="vertical-align:middle;font-size:1.1em;">
+  				{{#if editing}}
+  					<input type="text" id="questionEdit" class="span5" value="{{question}}">
+  				{{else}}
+  					<span class="questionText {{#if answered}}muted{{/if}}">{{question}}</span>
+  				{{/if}}
+          <!-- Moderator Section -->
+  				{{#if moderator}}
+            <button class="close delete" style="margin-left:25px;"><i class="icon-remove"></i></button>
+            <button class="close answered"><i class="icon-ok"></i></button>
+            <button class="close addtag" style="margin-right: 25px;"><i class="icon-plus"></i></button>
+            {{#if addingtag}}
+              <input id="addtag" class="pull-right span2" type='text' style="height:12px; margin-right:10px;" value="{{this.tags}}">
+            {{/if}}
+            {{#if filterEnabled}}
+              {{#if qstnApproved}}
+              <button class="btn pull-right approveQstn" style="line-height:18px;font-size:15px;font-weight:normal;margin-right:15px;color:green;">approve</button>
+              {{else}}
+              <span class="pull-right label label-success" style="margin-right:15px;">accepted</span>
+              {{/if}}
+            {{/if}}
+  				{{/if}}
+          <!-- End Moderator -->
+  				{{#each tags}}
+  					<div class="label hidden-phone!! pull-right" style="margin-right:10px;">{{this}}</div>
+  				{{/each}}
+        </td>
+        {{#if commentsEnabled}}
+          <td class="more-info" style="vertical-align:middle;text-align:center;">
+            <button class="comments showComments"><i class="icon-comment" style="opacity: 0.4;"></i>{{commentCount}}</button>
+          </td>
+        {{/if}}
+  		</tr>
+  	{{/each}}
+  	</table>
+
+<!--   	{{#if tier3}}
+  		<hr>
+      <div class='box text-center'>
+  		  <p>Admin Only:</p>
+    		<button id="export" class="btn btn-primary">Download All Records</button>&nbsp;
+    		<button id="clear" class="btn btn-danger">Delete Records (double-click)</button>
+      </div>
+  	{{/if}} -->
+
+	<div id="eraseMe"></div>
+  <div id="submitbox" >
+    <div class="input-append span12 submitbox">
+      <input type="text" id="inputquestion" data-toggle="popover" data-placement="top" placeholder="{{placeholder}}"/>
+  		<button id="submitquestion" type="button" class="btn btn-info">Ask!</button>
+    </div>
+	</div>
+
+  <!-- Modal -->
+  {{>commentModal}}
+
+</template>

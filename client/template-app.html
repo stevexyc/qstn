@@ -1,0 +1,72 @@
+<template name="app">
+  <div class="container" style="max-width:500px;">
+    <div id="topbar">
+      <img src="logo-draft.png" style="border-left: 1px solid #eee;padding: 1px 0 0 2px;">
+      <div id="topmenu" class="btn-group">
+        <div class="btn">Overview</div>
+        <div class="btn">Example</div>
+        <div class="btn pull-right">{{loginButtons align="right"}}</div>
+      </div>
+    </div>
+    <div class='box text-center'>
+      <h1>Join a Session</h1>
+      Session ID:
+      <div class="input-append">
+        <input id="joinSessionId" type='text' style="width:80px;" autocapitalize="characters" autocorrect="off" maxlength="8"/>
+        <button id="joinSession" type="button" class='btn'>Go</button>
+      </div>
+    </div>
+
+    <div class='box text-center'>
+      <h2>Create a Session</h2>
+      {{#if currentUser}}
+        <hr>
+          <p>Session Title:* &nbsp;
+          <input id="sessionTitle" type="text" style="margin:0;width:160px;" maxlength="24"/>
+          </p>
+        <hr>
+        <button id="createSession" type="button" class="btn">Create</button><br>
+        <span style="color:red; font-size:12px;" id="error"></span>
+      {{else}}
+        <span>Sign in to create a session</span>
+      {{/if}}
+    </div>
+
+    {{#if currentUser}}
+    <div class="box text-center">
+      <h3>Active Sessions</h3>
+      <table class="table">
+        <thead><tr><td>Title</td><td>ID</td><td>---</td></tr></thead>
+        {{#each yourSession}}
+          <tr>
+            <td>{{title}}</td>
+            <td><a href="/{{sessionId}}">{{sessionId}}</a></td>
+            {{#if adminOnly}}<td>{{ownerUsrname}}</td>{{/if}}
+            <td><button type="button" class="btn btn-mini deleteSession">&times;</button></td>
+          </tr>
+        {{/each}}
+      </table>
+    </div>
+    {{/if}}
+
+    {{#if adminOnly}}
+    <div class="box text-center" style="font-size:1em;">
+      <h3>[AdminOnly] Users</h3>
+      <table class="table">
+        <thead><tr><td>Username</td><td>Email</td><td>Tier</td></tr></thead>
+        {{#each allUsers}}
+          <tr>
+            <td>{{username}}</td>
+            <td>{{#each emails}}{{this.address}}{{/each}}</td>
+            <td>
+              <i class="icon-chevron-left dec"></i>
+              {{tier}}
+              <i class="icon-chevron-right inc"></i>
+            </td>
+          </tr>
+        {{/each}}
+      </table>
+    </div>
+    {{/if}}
+  </div>  
+</template>
