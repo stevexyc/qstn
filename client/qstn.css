@@ -9,10 +9,10 @@ body {
 h1, h2,h3 {font-weight: 300;}
 
 .box {
-    margin-top: 5px;
-    background: #f0f9ff;
+    margin-top: 3px;
+    /*background: #f0f9ff;*/
     border: 1px solid #efefef;
-    font-size: 20px;
+    font-size: 15px;
     padding: 20px;
 }
 

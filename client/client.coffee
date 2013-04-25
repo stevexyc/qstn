@@ -42,10 +42,9 @@ Template.pagecontrol.idInURL = ->
 	page_index = window.location.pathname
 	if page_index.charAt(0) is '/'
 		urlID = page_index.substring(1, page_index.length).trim().toUpperCase()
+		console.log allSessions
 		if urlID?
-			for item in sessions.find({}).fetch()
-				allSessions.push item.sessionId
-			if urlID in allSessions
+			if sessions.findOne({sessionId:urlID}) isnt undefined
 				Session.set 'urlID', urlID
 				true
 		
@@ -438,7 +437,9 @@ makeId = ->
     while i < 4
         text += possible.charAt(Math.floor(Math.random() * possible.length))
         i++
-    if text not in allSessions
+    if text in ['DAMN','SHIT','CRAP','FUCK','FACK','FOCK','FURY','ASSH','ASSE','SHAT','SHUT','DICK','DACK','MACK','NIGS','NIGA','MOFO','DUNG','CHNK','KINK','FAGS','AFAG','FUKU','SEXY','ASEX','SEXI','XXXX','SEXX']
+    	makeId
+    else if text not in allSessions
     	text
     else 
     	makeId()
@@ -451,6 +452,7 @@ joinSession = (e,t) ->
 		Session.set 'urlID', sessionId
 		window.location.pathname = '/' + sessionId
 	else 
+		document.getElementById('error1').innerHTML = 'No Session Found'
 		false
 
 removeAll = () ->

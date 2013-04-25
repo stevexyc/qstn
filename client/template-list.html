@@ -64,7 +64,8 @@
   					<span class="questionText {{#if answered}}muted{{/if}}">{{question}}</span>
   				{{/if}}
           <!-- Moderator Section -->
-  				{{#if moderator}}
+          <div style="float:right;">
+          {{#if moderator}}
             <button class="close delete" style="margin-left:25px;"><i class="icon-remove"></i></button>
             <button class="close answered"><i class="icon-ok"></i></button>
             <button class="close addtag" style="margin-right: 25px;"><i class="icon-plus"></i></button>
@@ -83,6 +84,7 @@
   				{{#each tags}}
   					<div class="label hidden-phone!! pull-right" style="margin-right:10px;">{{this}}</div>
   				{{/each}}
+          </div>
         </td>
         {{#if commentsEnabled}}
           <td class="more-info" style="vertical-align:middle;text-align:center;">
@@ -111,6 +113,7 @@
 	</div>
 
   <!-- Modal -->
-  {{>commentModal}}
-
+  {{#if commentsEnabled}}
+    {{>commentModal}}
+  {{/if}}
 </template>
