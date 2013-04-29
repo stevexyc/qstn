@@ -3,8 +3,8 @@ Meteor.subscribe("Users")
 Meteor.autosubscribe ->
   Meteor.subscribe "Comments", Session.get("urlID")
 
-`sessions = new Meteor.Collection('Sessions')
-comments = new Meteor.Collection('Comments')`
+sessions = new Meteor.Collection('Sessions')
+comments = new Meteor.Collection('Comments')
 
 Meteor.startup ->
 	cookies = document.cookie.split(';')
@@ -38,15 +38,19 @@ allSessions = []
 upvotes = []
 
 # pagecontrol
+Template.pagecontrol.sessionURL = ->
+	page_index = window.location.pathname
+	if (page_index.charAt(0) is '/' and page_index.length > 1)
+		true
+
+
 Template.pagecontrol.idInURL = ->
 	page_index = window.location.pathname
 	if page_index.charAt(0) is '/'
 		urlID = page_index.substring(1, page_index.length).trim().toUpperCase()
-		console.log allSessions
-		if urlID?
-			if sessions.findOne({sessionId:urlID}) isnt undefined
-				Session.set 'urlID', urlID
-				true
+		if sessions.findOne({sessionId:urlID}) isnt undefined
+			Session.set 'urlID', urlID
+			true
 		
 Template.pagecontrol.events {
 	'click #test': (e,t) ->
@@ -57,7 +61,12 @@ Template.pagecontrol.events {
 			console.log 'WOOOOOOWEEE'	
 }
 
+Template.loading.goToMain = ->
+	Meteor.setTimeout(go2Main, 5000)
+
 # StartPage	
+Template.app.loading = ->
+	Session.equals 'loading', true
 
 Template.app.yourSession = ->
 	id = Meteor.userId()
@@ -77,6 +86,9 @@ Template.app.ownerUsrname = ->
 	Meteor.users.findOne(this.owner).username
 
 Template.app.events {
+	'click #gotofeatures': (e,t) ->
+		$('html, body').animate({scrollTop:$('#features').position().top}, 'slow')
+
 	'click #joinSession': (e,t)->
 		joinSession(e,t)
 
@@ -87,23 +99,30 @@ Template.app.events {
 	'click #createSession': (e,t) ->
 		title = document.getElementById('sessionTitle').value.trim()
 		user = Meteor.users.findOne(Meteor.userId())
+		optnlID = document.getElementById('optionalID').value.trim()
 		if title.length is 0
 			document.getElementById('error').innerHTML = 'need title name'
 		else if (user.tier is 1) and (sessions.find({owner:Meteor.userId()}).count() is 1)
 			document.getElementById('error').innerHTML = 'upgrade to create more sessions'
 		else 
-			sessionId = makeId()
-			userId = Meteor.userId()
-			sessions.insert {
-				title: title
-				sessionId: sessionId
-				owner: userId
-				filtering: false
-				topics: false
-				tags:[]
-				commenting: false
-			}
-			document.getElementById('sessionTitle').value = ''
+			if optnlID.length is 0
+				sessionId = makeId()
+			else if sessions.findOne({sessionId:optnlID.toUpperCase()}) isnt undefined
+				document.getElementById('error').innerHTML = 'Passcode Taken, choose another'
+			else 
+				sessionId = optnlID
+				userId = Meteor.userId()
+				sessions.insert {
+					title: title
+					sessionId: sessionId
+					owner: userId
+					filtering: false
+					topics: false
+					tags:[]
+					commenting: false
+				}
+				document.getElementById('sessionTitle').value = ''
+				document.getElementById('optionalID').value = ''
 
 	'click .deleteSession': (e,t) ->
 		sessions.remove this._id
@@ -421,6 +440,15 @@ Accounts.ui.config({
 Array::remove = (e) -> @[t..t] = [] if (t = @indexOf(e)) > -1
 
 # Functions
+go2Main = ()-> 
+	page_index = window.location.pathname
+	if page_index.charAt(0) is '/'
+		urlID = page_index.substring(1, page_index.length).trim().toUpperCase()
+		if sessions.findOne({sessionId:urlID}) is undefined
+			# console.log 'undefined session'
+			window.location.href = '/'
+		else 
+			Session.set 'urlID', urlID
 
 JSON2CSV = () ->
     json = comments.find {sessionId: Session.get('urlID')}, {sort: {votes: -1}}
@@ -438,7 +466,7 @@ makeId = ->
         text += possible.charAt(Math.floor(Math.random() * possible.length))
         i++
     if text in ['DAMN','SHIT','CRAP','FUCK','FACK','FOCK','FURY','ASSH','ASSE','SHAT','SHUT','DICK','DACK','MACK','NIGS','NIGA','MOFO','DUNG','CHNK','KINK','FAGS','AFAG','FUKU','SEXY','ASEX','SEXI','XXXX','SEXX']
-    	makeId
+    	makeId()
     else if text not in allSessions
     	text
     else 

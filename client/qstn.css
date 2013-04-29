@@ -195,8 +195,23 @@ a#login-sign-in-link {
     padding: 10px 10px 10px 20px;
     border-bottom: 1px solid #eee
 }
-
-
+#features {
+    width: 70%;
+    margin: 0 auto;
+}
+#features dt, #features dd {
+    margin-top: 10px;
+}
+#login-buttons .login-button, .accounts-dialog .login-button {
+    background-color: #3399cc;
+    background-image: -moz-linear-gradient(top, #5bc0de, #3399cc);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#3399cc));
+    background-image: -webkit-linear-gradient(top, #5bc0de, #3399cc);
+    background-image: -o-linear-gradient(top, #5bc0de, #3399cc);
+    background-image: linear-gradient(to bottom, #5bc0de, #3399cc);
+    border: 1px solid #8790b4;
+    margin-bottom: 10px;
+}
 @media screen and (max-width: 480px)  
 {
      #inputquestion {
@@ -209,5 +224,11 @@ a#login-sign-in-link {
      }
      #eraseMe {
         height: 42px;
+     }
+     #features {
+        width: 90%;
+     }
+     #features dd {
+        margin-top: 0;
      }
 }

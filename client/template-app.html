@@ -1,7 +1,7 @@
 <template name="app">
   <div class="container" style="max-width:800px;">
     <div id="topbar">
-      <img src="logo-draft.png" style="border-left: 1px solid #eee;padding: 1px 0 0 2px;">
+      <img src="generalQ.png" style="border-left: 1px solid #eee;padding: 3px 0 0 2px;">
       <div id="topmenu" class="btn-group">
         <div class="btn pull-right">{{loginButtons align="right"}}</div>
       </div>
@@ -9,7 +9,11 @@
     <div class="box text-center" style="height:118px;background:#f0f9ff;">
       <h3 style="margin:0;">GeneralQ</h3>
       <p>...is a conference app for the audience to ask questions and vote for their favorites</p>
-      <span><a href="#">Features</a>&nbsp;&nbsp; <a href="#">Demo</a></span>
+      <div>
+        <a href="#" class="btn" id="gotofeatures">Features</a>
+        <a class="btn" href="/DEMO" target="_blank">Demo</a>
+        <!-- <a href="#" class="btn" id="gotoplans">Plans</a> -->
+      </div>
     </div>
 
 
@@ -20,19 +24,18 @@
         <div class="input-append">
           <input id="joinSessionId" type='text' style="width:88px;" placeholder="Session ID" autocapitalize="characters" autocorrect="off" maxlength="8"/>
           <button id="joinSession" type="button" class='btn'>Go</button>
-        </div><br>
+        </div>
+        <br>
         <span style="color:red; font-size:12px;" id="error1"></span>
       </div>
       <div class='box text-center'>
         <h3>Create a Session</h3>
         {{#if currentUser}}
-          <!-- Session Title:  -->
-          <!-- <div class="input-append"> -->
-            <input id="sessionTitle" type="text" style="width:108px;" maxlength="24" placeholder="Session Title"/>
-            <input id="optionalID" type="text" style="width:78px;" maxlength="8" placeholder="Optional ID ">
+            <input id="sessionTitle" type="text" style="width:175px;" maxlength="24" placeholder="Session Title *"/><br>
+            <input id="optionalID" type="text" style="width:88px;" maxlength="8" placeholder="ID (optional)"> &nbsp;
             <button id="createSession" type="button" class="btn" style="margin-bottom:10px;">Create</button>
-          <!-- </div><br> -->
-          <span style="color:red; font-size:12px;" id="error"></span>
+            <br>
+            <span style="color:red; font-size:12px;" id="error"></span>
         {{else}}
           <small><em>Sign in to create a session</em></small>
           <br><br>
@@ -76,13 +79,22 @@
     </div>
     {{/if}}
 
-    <div class="box" style="height:118px;background:#f0f9ff;">
+    <div class="box" style="background:#f0f9ff;">
+      <a id="features"></a>
       <h3 class="text-center">Features</h3>
-        <ul>
-          <li>Use passcode or url</li>
-          <li>Approve, edit, or delete Questions</li>
-          <li>Enable comments on questions</li>
-        </ul>
+        <dl id="features" class="dl-horizontal">
+          <dt>Custom ID/URL</dt>
+            <dd>Create your own easy-to-remember passcode or URL</dd>
+          <dt>Screen & Filter</dt>
+            <dd>Approve, edit, or delete questions as you see fit</dd>
+          <dt>Session Topics</dt>
+            <dd>Organize your session by topics you create</dd>
+          <dt>Comments</dt>
+            <dd>Let the audience comment on questions and start discussions</dd>
+          <dt>Data Export</dt>
+            <dd>Download the results of your session</dd>
+        </dl>
+        <br>
     </div>
 
   </div>  

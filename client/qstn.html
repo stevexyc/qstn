@@ -13,7 +13,11 @@
   {{#if idInURL}}
     {{>list}}
   {{else}}
-    {{>app}}
+    {{#if sessionURL}}
+      {{>loading}}
+    {{else}}
+      {{>app}}
+    {{/if}} 
   {{/if}}
 </template>
 
@@ -39,3 +43,9 @@
     </div>
   </div>
 </template> 
+
+<template name="loading">
+  <center><img src="load.gif" style="margin-top:30%;"></center>
+  <h2 class="text-center" style="color:#8e8d8d;">Loading...</h2>
+  <span class="hidden">{{goToMain}}</span>
+</template>
