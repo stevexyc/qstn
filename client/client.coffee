@@ -64,9 +64,10 @@ Template.pagecontrol.events {
 Template.loading.goToMain = ->
 	Meteor.setTimeout(go2Main, 5000)
 
+
 # StartPage	
-Template.app.loading = ->
-	Session.equals 'loading', true
+Template.app.mobile = ->
+	/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
 
 Template.app.yourSession = ->
 	id = Meteor.userId()

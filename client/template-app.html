@@ -1,61 +1,118 @@
 <template name="app">
-  <div class="container" style="max-width:800px;">
-    <div id="topbar">
-      <img src="generalQ.png" style="border-left: 1px solid #eee;padding: 3px 0 0 2px;">
-      <div id="topmenu" class="btn-group">
-        <div class="btn pull-right">{{loginButtons align="right"}}</div>
-      </div>
-    </div>
-    <div class="box text-center" style="height:118px;background:#f0f9ff;">
-      <h3 style="margin:0;">GeneralQ</h3>
-      <p>...is a conference app for the audience to ask questions and vote for their favorites</p>
-      <div>
+  {{#if mobile}}
+    <div id="box1" class="box text-center">
+      <center><img src="generalQ3.png"></center>
+      <h3>Best questions from the audience</h3>
+      <p>Find out what your audience really wants to know, let them ask questions and vote for their favorites</p>
+      <div class="hidden-phone">
         <a href="#" class="btn" id="gotofeatures">Features</a>
         <a class="btn" href="/DEMO" target="_blank">Demo</a>
-        <!-- <a href="#" class="btn" id="gotoplans">Plans</a> -->
       </div>
     </div>
 
-
-      <!-- <img src="generalQ.png" class="hidden-phone span6 pull-left"> -->
-      <div class='box text-center'>
+      <div id="box2" class='box text-center'>
         <h3>Join a Session</h3>
         <!-- Session ID: -->
         <div class="input-append">
           <input id="joinSessionId" type='text' style="width:88px;" placeholder="Session ID" autocapitalize="characters" autocorrect="off" maxlength="8"/>
-          <button id="joinSession" type="button" class='btn'>Go</button>
+          <button id="joinSession" type="button" class='btn btn-info'>Go</button>
         </div>
         <br>
-        <span style="color:red; font-size:12px;" id="error1"></span>
-      </div>
-      <div class='box text-center'>
-        <h3>Create a Session</h3>
-        {{#if currentUser}}
-            <input id="sessionTitle" type="text" style="width:175px;" maxlength="24" placeholder="Session Title *"/><br>
-            <input id="optionalID" type="text" style="width:88px;" maxlength="8" placeholder="ID (optional)"> &nbsp;
-            <button id="createSession" type="button" class="btn" style="margin-bottom:10px;">Create</button>
-            <br>
-            <span style="color:red; font-size:12px;" id="error"></span>
-        {{else}}
-          <small><em>Sign in to create a session</em></small>
-          <br><br>
-        {{/if}}
+        <span class="err" style="font-size:12px;" id="error1"></span>
       </div>
 
+      <div class="box" style="background:#efefef;">
+        <h3 class="text-center">Features</h3>
+          <dl id="features" class="dl-horizontal">
+            <dt>Custom ID/URL</dt>
+              <dd>Create your own easy-to-remember passcode or URL</dd>
+            <dt>Screen & Filter</dt>
+              <dd>Approve, edit, or delete questions as you see fit</dd>
+            <dt>Session Topics</dt>
+              <dd>Organize your session by topics you create</dd>
+            <dt>Comments</dt>
+              <dd>Let the audience comment on questions and start discussions</dd>
+            <dt>Data Export</dt>
+              <dd>Download the results of your session</dd>
+          </dl>
+          <center><a href="/DEMO" target="_blank"><button class="btn btn-info" style="margin-top:20px;">Live Demo</button></a></center>
+          <br>
+      </div>
+
+      <div class="box black" style="color:#ccc;font-size:10px;">
+        <center>
+          <img src="generalQ-icon.png"><br>
+          <span>privacy</span> | <span>terms</span><br>
+          <span>&copy; General Q</span>
+        </center>
+      </div>
+
+  {{else}} 
+  <div id="home-feature">
+    <div id="top_home">
+      <div class="container">
+        <img src="generalQ3.png" style="padding: 0 2px;">
+        <div class="btn btn-primary pull-right" style="margin:10px 15px 0 0;">{{loginButtons align="right"}}</div>
+      </div>
+    </div>
+    <div id="feature_home">
+      <div class="container" style="position: relative;">
+        <div id="hero">
+          <h1>Best Questions from the Audience</h1>
+          <p>Find out what your audience really wants to know, let them ask questions and vote for their favorites</p>
+        </div>
+        <img id="screenshot" src="generalQ-iphone.png">
+      </div>
+    </div>
+  </div>
+
+  <div class='box'>
+    <div class="container">
+    <div class="join text-center pull-left">
+      <h3>Join a Session</h3>
+      <div class="input-append">
+        <input id="joinSessionId" type='text' style="width:88px;" placeholder="Session ID" autocapitalize="characters" autocorrect="off" maxlength="8"/>
+        <button id="joinSession" type="button" class='btn btn-info'>Go</button>
+      </div>
+      <br>
+      <span class="err" style="font-size:12px;" id="error1"></span>
+    </div>
+
+    <!-- bar -->
+    <div class="bar"></div>
+
+    <div class="create text-center pull-right">
+      <h3>Create a Session</h3>
+      {{#if currentUser}}
+          <input id="sessionTitle" type="text" style="width:175px; margin-top:10px;" maxlength="24" placeholder="Session Title *"/><br>
+          <input id="optionalID" type="text" style="width:88px;" maxlength="8" placeholder="ID (optional)"> &nbsp;
+          <button id="createSession" type="button" class="btn btn-info" style="margin-bottom:10px;">Create</button>
+          <br>
+          <span class="err" style="font-size:12px;" id="error"></span>
+      {{else}}
+        <small><em>Sign in to create a session</em></small>
+        <br><br>
+      {{/if}}
+    </div>
+    </div>
+  </div>
+
     {{#if currentUser}}
-    <div class="box text-center">
-      <h3>Active Sessions</h3>
-      <table class="table">
-        <thead><tr><td>Title</td><td>ID</td><td>---</td></tr></thead>
-        {{#each yourSession}}
-          <tr>
-            <td>{{title}}</td>
-            <td><a href="/{{sessionId}}">{{sessionId}}</a></td>
-            {{#if adminOnly}}<td>{{ownerUsrname}}</td>{{/if}}
-            <td><button type="button" class="btn btn-mini deleteSession">&times;</button></td>
-          </tr>
-        {{/each}}
-      </table>
+    <div class="box text-center" style="background:#f7f7f7;">
+      <div class="container">
+        <h3>Your Active Sessions</h3>
+        <table class="table">
+          <thead><tr><td>Title</td><td>ID</td><td>---</td></tr></thead>
+          {{#each yourSession}}
+            <tr>
+              <td>{{title}}</td>
+              <td><a href="/{{sessionId}}">{{sessionId}}</a></td>
+              {{#if adminOnly}}<td>{{ownerUsrname}}</td>{{/if}}
+              <td><button type="button" class="btn btn-mini deleteSession">&times;</button></td>
+            </tr>
+          {{/each}}
+        </table>
+      </div>
     </div>
     {{/if}}
 
@@ -79,23 +136,46 @@
     </div>
     {{/if}}
 
-    <div class="box" style="background:#f0f9ff;">
-      <a id="features"></a>
-      <h3 class="text-center">Features</h3>
-        <dl id="features" class="dl-horizontal">
-          <dt>Custom ID/URL</dt>
-            <dd>Create your own easy-to-remember passcode or URL</dd>
-          <dt>Screen & Filter</dt>
-            <dd>Approve, edit, or delete questions as you see fit</dd>
-          <dt>Session Topics</dt>
-            <dd>Organize your session by topics you create</dd>
-          <dt>Comments</dt>
-            <dd>Let the audience comment on questions and start discussions</dd>
-          <dt>Data Export</dt>
-            <dd>Download the results of your session</dd>
-        </dl>
-        <br>
+    <div class="box features">
+      <div class="container" style="position:relative; height: 800px;color:#f7f7f7;">
+          <img src="generalq-iphone-white.png" style="position: absolute; top: 100px; left: 0px;">
+          <span class="badge badge-warning">1</span>
+          <span class="badge badge-warning">2</span>
+          <span class="badge badge-warning">3</span>
+          <span class="badge badge-warning">4</span>
+          <span class="badge badge-warning">5</span>
+
+          <dl class="feature-list">
+            <dt><span class="badge badge-warning">1</span>
+              Use your own Custom ID / URL</dt>
+            <dd>Make your passcodes easy to remeber! Have your audience go to generalQ.com and type in 'CUSTOM-ID' or go directly to generalQ.com/CUSTOM-ID</dd>
+            <dt><span class="badge badge-warning">2</span>
+              Sort Questions by most Popular or Recent</dt>
+            <dd>It's easy for you and the audience to find out what's popular but also what's new. Everything updates in real-time!</dd>
+            <dt><span class="badge badge-warning">3</span>
+              Organize by Topics / Categories</dt>
+            <dd>Give your conference mini-sessions! By enabling topics your audience can post questions to specific topics. The moderator can create and delete comments </dd>
+            <dt><span class="badge badge-warning">4</span>
+              Vote and Comment</dt>
+            <dd>Your audience can vote for questions they like! The moderator also has options to allow comments and manage comments </dd>
+            <dt><span class="badge badge-warning">4</span>
+              Export Results</dt>
+            <dd>Download the results of your session into excel / csv, including the numbers of votes, topic, and if the question is answered </dd>
+            <a href="/DEMO" target="_blank"><button class="btn btn-large btn-info" style="margin: 20px 0 0 33px;">Live Demo</button></a>
+          </dl>
+      </div>
     </div>
 
-  </div>  
+    <div class="box footer">
+      <div class="container" style="position:relative;height:80px;margin-top:30px;font-size:12px;">
+        <center>
+          <img src="generalQ-icon.png"><br>
+          <span>privacy</span> | <span>terms</span><br>
+          <span>&copy; General Q</span>
+        </center>
+      </div>
+    </div>
+ 
+  {{/if}}
 </template>
+

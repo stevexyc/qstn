@@ -7,15 +7,108 @@ body {
 }
 
 h1, h2,h3 {font-weight: 300;}
+#home-feature {
+    height: 570px;
+    background-image: url('/tmp2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
+#top_home {
+    width: 100%;
+    height: 50px;
+    background: rgba(255,255,255,0.5);
+    /*padding-top: 15px;*/
+}
+.container {
+    width: 768px;
+}
+#feature_home #hero {
+    margin: 150px 0px 0px 10px;
+    width: 450px;
+
+}
+#feature_home h1 {
+    color: #f7f7f7;
+    text-shadow:2px 2px 2px #000000;
+}
+#feature_home p { color: #ccc}
+
+#screenshot {
+    position: absolute;
+    width: 250px;
+    height: auto;
+    top: 15px;
+    right: 18px;
+}
 .box {
-    margin-top: 3px;
-    /*background: #f0f9ff;*/
-    border: 1px solid #efefef;
+    background: #efefef;
+    /*border-bottom: 1px solid #efefef;*/
     font-size: 15px;
     padding: 20px;
 }
 
+.box .join, .box .create {
+    width: 350px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.box .bar {
+    height: 160px;
+    width: 0px;
+    margin-left: 30px;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+.features, .black{
+    background: #2f2f2f;
+    /*background: rgba(0,0,0,0.8);*/
+}
+.features > .container > .badge { position:absolute;}
+.features .badge:nth-of-type(1) {top: 229px; left: 158px;}
+.features .badge:nth-of-type(2) {top: 248px; left: 220px;}
+.features .badge:nth-of-type(3) {top: 280px; left: 138px;}
+.features .badge:nth-of-type(4) {top: 350px; left: 150px;}
+.features .badge:nth-of-type(5) {top: 580px; left: 150px;}
+
+.blue {
+    background-color: #49afcd;
+    background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
+    background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
+    background-repeat: repeat-x;
+}
+.feature-list {
+    position: absolute;
+    width: 380px;
+    top: 110px;
+    left: 400px;
+}
+.feature-list dt {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #efefef;
+    font-weight: 300;
+}
+.feature-list dd{
+    margin-left: 33px;
+    color: #ccc;
+}
+
+.box .media {
+    padding: 10px 50px;
+}
+.media > .pull-left, .media > .pull-right {
+    margin: 0px 20px;
+
+}
 .box td {
     text-align: center;
     vertical-align: middle;
@@ -132,12 +225,6 @@ h1, h2,h3 {font-weight: 300;}
     word-wrap: break-word;
 }
 
-a#login-sign-in-link {
-    font-size: 11px;
-    text-decoration: none;
-    color: black;
-}
-
 .muted {
     text-decoration: line-through;
 }
@@ -202,6 +289,20 @@ a#login-sign-in-link {
 #features dt, #features dd {
     margin-top: 10px;
 }
+
+a#login-sign-in-link {
+    font-size: 11px;
+    text-decoration: none;
+}
+#top_home #login-sign-in-link {
+    color: white;
+    font-weight: bold;
+}
+#top_home #login-name-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
 #login-buttons .login-button, .accounts-dialog .login-button {
     background-color: #3399cc;
     background-image: -moz-linear-gradient(top, #5bc0de, #3399cc);
@@ -212,8 +313,68 @@ a#login-sign-in-link {
     border: 1px solid #8790b4;
     margin-bottom: 10px;
 }
+
+.err {
+    color: red;
+}
+.footer {
+}
 @media screen and (max-width: 480px)  
 {
+    html,body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0; 
+    }  
+    h1 {
+        margin: 0;
+        padding: 0;
+    }
+    #box1 {
+        border: none;
+        background-image: url('/tmp5.png');
+        background-position: center center;
+        background-repeat: no-repeat; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 160px;
+        margin: 0;
+        -moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.85);
+    }
+    #box1 h3 {
+        font-size: 1.2em;
+        font-weight: normal;
+        margin: 0;
+    }
+    #box1 p {
+        padding: 0 10px;
+        color: #727272;
+    }
+    #box2 {
+        border:none;
+        margin: 0;
+        background: black;
+        background-image: url('/tmp2.png');
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    #box2 h3{
+        color: #f7f7f7;
+        font-weight: bold;
+        text-shadow:5px 5px 5px #000000;
+    }
+    #joinSession {
+
+    }
      #inputquestion {
         height: auto;
         padding: 10px 5px;
@@ -231,4 +392,16 @@ a#login-sign-in-link {
      #features dd {
         margin-top: 0;
      }
+     .err {
+        color: #fff;
+     }
+}
+
+@media (device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+    #box2 {
+        height: 206px;
+    }
+    #box2 h3 {
+        margin-top: 20px;
+    }
 }
