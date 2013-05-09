@@ -66,9 +66,9 @@
           <!-- Moderator Section -->
           <div style="float:right;">
           {{#if moderator}}
-            <button class="close delete" style="margin-left:25px;"><i class="icon-remove"></i></button>
-            <button class="close answered"><i class="icon-ok"></i></button>
-            <button class="close addtag" style="margin-right: 25px;"><i class="icon-plus"></i></button>
+            <button title="delete question" class="close delete" style="margin-left:25px;"><i class="icon-remove"></i></button>
+            <button title="check answered" class="close answered"><i class="icon-ok"></i></button>
+            <button title="add/edit topic" class="close addtag" style="margin-right: 25px;"><i class="icon-plus"></i></button>
             {{#if addingtag}}
               <input id="addtag" class="pull-right span2" type='text' style="height:12px; margin-right:10px;" value="{{this.tags}}">
             {{/if}}
@@ -95,19 +95,10 @@
   	{{/each}}
   	</table>
 
-<!--   	{{#if tier3}}
-  		<hr>
-      <div class='box text-center'>
-  		  <p>Admin Only:</p>
-    		<button id="export" class="btn btn-primary">Download All Records</button>&nbsp;
-    		<button id="clear" class="btn btn-danger">Delete Records (double-click)</button>
-      </div>
-  	{{/if}} -->
-
 	<div id="eraseMe"></div>
   <div id="submitbox" >
     <div class="input-append span12 submitbox">
-      <input type="text" id="inputquestion" data-toggle="popover" data-placement="top" placeholder="{{placeholder}}"/>
+      <input type="text" id="inputquestion" placeholder="{{placeholder}}"/>
   		<button id="submitquestion" type="button" class="btn btn-info">Ask!</button>
     </div>
 	</div>

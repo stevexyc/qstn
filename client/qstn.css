@@ -28,15 +28,23 @@ h1, h2,h3 {font-weight: 300;}
     width: 768px;
 }
 #feature_home #hero {
-    margin: 150px 0px 0px 10px;
+    margin: 180px 0px 0px 10px;
     width: 450px;
 
 }
 #feature_home h1 {
     color: #f7f7f7;
+    line-height: 45px;
     text-shadow:2px 2px 2px #000000;
 }
-#feature_home p { color: #ccc}
+#feature_home h4 { 
+    margin-top: 15px; 
+    /*color: #e6e6e6; */
+    color: #d7d7d7;
+    font-weight: 300; 
+    line-height: 28px; 
+    text-shadow: 1px 1px 1px #333;
+}
 
 #screenshot {
     position: absolute;
@@ -316,6 +324,7 @@ a#login-sign-in-link {
 
 .err {
     color: red;
+    font-size: 12px;
 }
 .footer {
 }

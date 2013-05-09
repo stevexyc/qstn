@@ -1,7 +1,8 @@
 Meteor.subscribe("Sessions")
 Meteor.subscribe("Users")
 Meteor.autosubscribe ->
-  Meteor.subscribe "Comments", Session.get("urlID")
+	Meteor.subscribe "activeSession", Session.get("urlID")
+	Meteor.subscribe "Comments", Session.get("urlID")
 
 sessions = new Meteor.Collection('Sessions')
 comments = new Meteor.Collection('Comments')
@@ -12,11 +13,6 @@ Meteor.startup ->
 		names = x.split('=')
 		value = names[0].trim()
 		upvotes.push value
-	
-	Deps.autorun ->
-		for item in sessions.find({}).fetch()
-			if item.sessionId not in allSessions
-				allSessions.push item.sessionId	
 
 	Deps.autorun ->
 		if not Session.equals 'urlID', null
@@ -34,7 +30,6 @@ Session.set 'showModal', 'hide'
 Session.set 'urlID', null
 Session.set 'tagfilter', null
 
-allSessions = []
 upvotes = []
 
 # pagecontrol
@@ -42,7 +37,6 @@ Template.pagecontrol.sessionURL = ->
 	page_index = window.location.pathname
 	if (page_index.charAt(0) is '/' and page_index.length > 1)
 		true
-
 
 Template.pagecontrol.idInURL = ->
 	page_index = window.location.pathname
@@ -52,18 +46,17 @@ Template.pagecontrol.idInURL = ->
 			Session.set 'urlID', urlID
 			true
 		
-Template.pagecontrol.events {
-	'click #test': (e,t) ->
-		tags = []
-		if Session.get('tagfilter') isnt (null or undefined)
-			console.log Session.get 'tagfilter'
-		else 
-			console.log 'WOOOOOOWEEE'	
-}
-
 Template.loading.goToMain = ->
 	Meteor.setTimeout(go2Main, 5000)
 
+# Template.pagecontrol.events {
+# 	'click #test': (e,t) ->
+# 		tags = []
+# 		if Session.get('tagfilter') isnt (null or undefined)
+# 			console.log Session.get 'tagfilter'
+# 		else 
+# 			console.log 'WOOOOOOWEEE'	
+# }
 
 # StartPage	
 Template.app.mobile = ->
@@ -100,35 +93,37 @@ Template.app.events {
 	'click #createSession': (e,t) ->
 		title = document.getElementById('sessionTitle').value.trim()
 		user = Meteor.users.findOne(Meteor.userId())
-		optnlID = document.getElementById('optionalID').value.trim()
+		optnlID = document.getElementById('optionalID').value.trim().toUpperCase()
 		if title.length is 0
 			document.getElementById('error').innerHTML = 'need title name'
-		else if (user.tier is 1) and (sessions.find({owner:Meteor.userId()}).count() is 1)
+		# else if user.emails[0].verified is false 
+		# 	document.getElementById('error').innerHTML = 'please verify your email'
+		else if (user.tier is 1) and (sessions.find({owner:Meteor.userId()}).count() is 3)
 			document.getElementById('error').innerHTML = 'upgrade to create more sessions'
+		else if sessions.findOne({sessionId:optnlID}) isnt undefined
+			document.getElementById('error').innerHTML = 'Passcode Taken, choose another'
 		else 
 			if optnlID.length is 0
 				sessionId = makeId()
-			else if sessions.findOne({sessionId:optnlID.toUpperCase()}) isnt undefined
-				document.getElementById('error').innerHTML = 'Passcode Taken, choose another'
 			else 
 				sessionId = optnlID
-				userId = Meteor.userId()
-				sessions.insert {
-					title: title
-					sessionId: sessionId
-					owner: userId
-					filtering: false
-					topics: false
-					tags:[]
-					commenting: false
-				}
-				document.getElementById('sessionTitle').value = ''
-				document.getElementById('optionalID').value = ''
+			userId = Meteor.userId()
+			sessions.insert {
+				title: title
+				sessionId: sessionId
+				owner: userId
+				filtering: false
+				topics: false
+				tags:[]
+				commenting: false
+			}
+			document.getElementById('sessionTitle').value = ''
+			document.getElementById('optionalID').value = ''
+			document.getElementById('success').innerHTML = 'successfully created ' + title
 
 	'click .deleteSession': (e,t) ->
 		sessions.remove this._id
 		Meteor.call 'deleteSession', this.sessionId
-		console.log this.sessionId
 
 	'click .inc': (e,t) ->
 		if adminOnly Meteor.userId() 
@@ -140,25 +135,11 @@ Template.app.events {
 }
 
 # QuesionList
-
 Template.list.sessionTitle = ->
 	sessions.findOne({sessionId: Session.get('urlID')}).title
 
 Template.list.topics = ->
 	sessions.findOne({sessionId: Session.get('urlID')}).tags
-	# tag_counts  = {}
-	# total_count = 0
-	# for question in comments.find({}).fetch()
-	# 	for tag in question.tags
-	# 		continue if tag is ''
-	# 		tag_counts[tag] = 0 unless tag_counts[tag]?
-	# 		tag_counts[tag] += question.votes
-	# 	total_count++
-	# tag_infos = for tag, count of tag_counts
-	# 	{ tag: tag, count: count }
-	# tag_infos = _.sortBy tag_infos, (x) -> x.count
-	# tag_infos.reverse()
-	# return tag_infos
 
 Template.list.newTopic = ->
 	Session.equals 'newTopic', true
@@ -257,14 +238,14 @@ Template.list.placeholder = ->
 Template.list.tier2 = ->
 	if Meteor.userId()?
 		user = Meteor.users.findOne(Meteor.userId())
-		if user.tier >= 2
+		if user.tier >= 1
 			true
 		else false
 
 Template.list.tier3 = ->
 	if Meteor.userId()?
 		user = Meteor.users.findOne(Meteor.userId())
-		if user.tier >= 3
+		if user.tier >= 1
 			true
 		else false
 
@@ -273,7 +254,6 @@ Template.list.events {
 		Ask(e,t)
 
 	'focusin #inputquestion': (e,t) ->
-		$('#inputquestion').popover('show')
 		if /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
 			$('#eraseMe').css('height','0px')
 			$('#submitbox').css('position','relative')
@@ -328,6 +308,9 @@ Template.list.events {
 	'click .deleteTopic': (e,t) ->
 		currentSession = sessions.findOne({sessionId:Session.get('urlID')})
 		sessions.update( currentSession._id, {$pull: {tags: this.toString()}})
+		Deps.flush()
+		if Session.equals 'tagfilter', this.toString()
+			Session.set 'tagfilter', null
 
 	'focusout #newtopicname': (e,t) ->
 		Session.set 'newTopic', false
@@ -339,8 +322,7 @@ Template.list.events {
 		Session.set 'tagfilter', null
 
 	'click .menutag': (e,t) ->
-		tmp = this.toString()
-		Session.set 'tagfilter', tmp
+		Session.set 'tagfilter', this.toString()
 
 	'dblclick .questionText': (e,t) ->
 		if Meteor.user()? and adminOrMod Meteor.userId()
@@ -392,7 +374,6 @@ Template.list.events {
 		Session.set 'commentID', this._id
 }
 
-
 Template.commentModal.HideModal = ->
 	Session.get 'showModal'
 
@@ -429,11 +410,6 @@ Template.list.preserve {
 }
 
 # Config
-
-Accounts.config({
-	forbidClientAccountCreation: false;
-});
-
 Accounts.ui.config({
      passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
@@ -446,17 +422,13 @@ go2Main = ()->
 	if page_index.charAt(0) is '/'
 		urlID = page_index.substring(1, page_index.length).trim().toUpperCase()
 		if sessions.findOne({sessionId:urlID}) is undefined
-			# console.log 'undefined session'
-			window.location.href = '/'
-		else 
-			Session.set 'urlID', urlID
+			window.location.pathname = '/'
 
 JSON2CSV = () ->
     json = comments.find {sessionId: Session.get('urlID')}, {sort: {votes: -1}}
-    str = 'Votes, Question \r\n'
-    line = ''
+    str = 'Votes, Question, Topic, Answered \r\n'
     json.forEach (Item) ->
-        str += Item.votes + ',' + Item.question + '\r\n'
+        str += Item.votes + ',' + Item.question.replace(/,/g, '') + ',' + Item.tags.toString().replace(/,/g, ' ') + ',' + Item.answered + '\r\n'
     window.open("data:text/csv;charset=utf-8," + escape(str))
 
 makeId = ->
@@ -468,7 +440,7 @@ makeId = ->
         i++
     if text in ['DAMN','SHIT','CRAP','FUCK','FACK','FOCK','FURY','ASSH','ASSE','SHAT','SHUT','DICK','DACK','MACK','NIGS','NIGA','MOFO','DUNG','CHNK','KINK','FAGS','AFAG','FUKU','SEXY','ASEX','SEXI','XXXX','SEXX']
     	makeId()
-    else if text not in allSessions
+    else if sessions.findOne({sessionId:text}) is undefined
     	text
     else 
     	makeId()
@@ -477,12 +449,12 @@ joinSession = (e,t) ->
 	sessionId = document.getElementById('joinSessionId').value.trim().toUpperCase()
 	if sessionId.length is 0
 		false
-	else if sessionId in allSessions
-		Session.set 'urlID', sessionId
-		window.location.pathname = '/' + sessionId
-	else 
+	else if sessions.findOne({sessionId:sessionId}) is undefined
 		document.getElementById('error1').innerHTML = 'No Session Found'
 		false
+	else 
+		Session.set 'urlID', sessionId
+		window.location.pathname = '/' + sessionId
 
 removeAll = () ->
     all = comments.find {} 

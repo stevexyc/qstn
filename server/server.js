@@ -13,8 +13,17 @@ Meteor.startup(function(){
     };
 });
 
+Meteor.publish('activeSession', function (urlID) {
+    if(this.userId) {
+        return sessions.find({});
+    }
+    else {
+        return sessions.find({sessionId:urlID});
+    }
+})
+
 Meteor.publish('Sessions', function(){
-    return sessions.find({});
+    return sessions.find({}, {fields: {'sessionId':1} });
 });
 
 Meteor.publish('Comments', function(urlID){
@@ -60,6 +69,11 @@ Meteor.methods ({
         Meteor.users.update (userId, {$inc: {tier: -1}})
     }
 })
+
+Accounts.config({
+    // sendVerificationEmail: true,
+    forbidClientAccountCreation: false
+});
 
 Accounts.onCreateUser(function(options, user) {
   user.tier = 1;

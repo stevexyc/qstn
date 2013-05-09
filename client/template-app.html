@@ -1,7 +1,7 @@
 <template name="app">
   {{#if mobile}}
     <div id="box1" class="box text-center">
-      <center><img src="generalQ3.png"></center>
+      <center><img src="generalQ-logo.png"></center>
       <h3>Best questions from the audience</h3>
       <p>Find out what your audience really wants to know, let them ask questions and vote for their favorites</p>
       <div class="hidden-phone">
@@ -51,15 +51,15 @@
   <div id="home-feature">
     <div id="top_home">
       <div class="container">
-        <img src="generalQ3.png" style="padding: 0 2px;">
+        <img src="generalQ-logo.png" style="padding: 0 2px;">
         <div class="btn btn-primary pull-right" style="margin:10px 15px 0 0;">{{loginButtons align="right"}}</div>
       </div>
     </div>
     <div id="feature_home">
       <div class="container" style="position: relative;">
         <div id="hero">
-          <h1>Best Questions from the Audience</h1>
-          <p>Find out what your audience really wants to know, let them ask questions and vote for their favorites</p>
+          <h1>The Best Questions from Your Audience</h1>
+          <h4>Find out what your audience really wants to know, let them ask questions and vote for their favorites. Take your conferences, lectures, and meetups to a whole new level.</h4>
         </div>
         <img id="screenshot" src="generalQ-iphone.png">
       </div>
@@ -88,7 +88,8 @@
           <input id="optionalID" type="text" style="width:88px;" maxlength="8" placeholder="ID (optional)"> &nbsp;
           <button id="createSession" type="button" class="btn btn-info" style="margin-bottom:10px;">Create</button>
           <br>
-          <span class="err" style="font-size:12px;" id="error"></span>
+          <span class="err" id="error"></span>
+          <span class="err" style="color:green;" id="success"></span>
       {{else}}
         <small><em>Sign in to create a session</em></small>
         <br><br>
@@ -102,13 +103,13 @@
       <div class="container">
         <h3>Your Active Sessions</h3>
         <table class="table">
-          <thead><tr><td>Title</td><td>ID</td><td>---</td></tr></thead>
+          <thead><tr><td>Session Title</td><td>ID / URL</td><td>---</td></tr></thead>
           {{#each yourSession}}
             <tr>
               <td>{{title}}</td>
               <td><a href="/{{sessionId}}">{{sessionId}}</a></td>
               {{#if adminOnly}}<td>{{ownerUsrname}}</td>{{/if}}
-              <td><button type="button" class="btn btn-mini deleteSession">&times;</button></td>
+              <td><button type="button" class="btn btn-mini deleteSession" title="delete session">&times;</button></td>
             </tr>
           {{/each}}
         </table>
@@ -118,27 +119,29 @@
 
     {{#if adminOnly}}
     <div class="box text-center" style="font-size:1em;">
-      <h3>[AdminOnly] Users</h3>
-      <table class="table">
-        <thead><tr><td>Username</td><td>Email</td><td>Tier</td></tr></thead>
-        {{#each allUsers}}
-          <tr>
-            <td>{{username}}</td>
-            <td>{{#each emails}}{{this.address}}{{/each}}</td>
-            <td>
-              <i class="icon-chevron-left dec"></i>
-              {{tier}}
-              <i class="icon-chevron-right inc"></i>
-            </td>
-          </tr>
-        {{/each}}
-      </table>
+      <div class="container">
+        <h3>[AdminOnly] Users</h3>
+        <table class="table">
+          <thead><tr><td>Username</td><td>Email</td><td>Tier</td></tr></thead>
+          {{#each allUsers}}
+            <tr>
+              <td>{{username}}</td>
+              <td>{{#each emails}}{{this.address}}{{/each}}</td>
+              <td>
+                <i class="icon-chevron-left dec"></i>
+                {{tier}}
+                <i class="icon-chevron-right inc"></i>
+              </td>
+            </tr>
+          {{/each}}
+        </table>
+      </div>
     </div>
     {{/if}}
 
     <div class="box features">
       <div class="container" style="position:relative; height: 800px;color:#f7f7f7;">
-          <img src="generalq-iphone-white.png" style="position: absolute; top: 100px; left: 0px;">
+          <img src="generalQ-iphone-white.png" style="position: absolute; top: 100px; left: 0px;">
           <span class="badge badge-warning">1</span>
           <span class="badge badge-warning">2</span>
           <span class="badge badge-warning">3</span>
@@ -158,7 +161,7 @@
             <dt><span class="badge badge-warning">4</span>
               Vote and Comment</dt>
             <dd>Your audience can vote for questions they like! The moderator also has options to allow comments and manage comments </dd>
-            <dt><span class="badge badge-warning">4</span>
+            <dt><span class="badge badge-warning">5</span>
               Export Results</dt>
             <dd>Download the results of your session into excel / csv, including the numbers of votes, topic, and if the question is answered </dd>
             <a href="/DEMO" target="_blank"><button class="btn btn-large btn-info" style="margin: 20px 0 0 33px;">Live Demo</button></a>
