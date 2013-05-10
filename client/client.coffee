@@ -1,4 +1,4 @@
-Meteor.subscribe("Sessions")
+loadFirst = Meteor.subscribe("Sessions")
 Meteor.subscribe("Users")
 Meteor.autosubscribe ->
 	Meteor.subscribe "activeSession", Session.get("urlID")
@@ -33,10 +33,8 @@ Session.set 'tagfilter', null
 upvotes = []
 
 # pagecontrol
-Template.pagecontrol.sessionURL = ->
-	page_index = window.location.pathname
-	if (page_index.charAt(0) is '/' and page_index.length > 1)
-		true
+Template.pagecontrol.loadFirst = ->
+	true if loadFirst.ready() is false
 
 Template.pagecontrol.idInURL = ->
 	page_index = window.location.pathname
@@ -45,9 +43,6 @@ Template.pagecontrol.idInURL = ->
 		if sessions.findOne({sessionId:urlID}) isnt undefined
 			Session.set 'urlID', urlID
 			true
-		
-Template.loading.goToMain = ->
-	Meteor.setTimeout(go2Main, 5000)
 
 # Template.pagecontrol.events {
 # 	'click #test': (e,t) ->
