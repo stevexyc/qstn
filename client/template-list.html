@@ -2,9 +2,9 @@
   	<div id="topbar" {{#if topicsEnabled}}style="background:#fff"{{/if}}>
       <img src="generalQ-icon.png" style="position:absolute; top:3px;left:2px;">
   		<span class="title">{{sessionTitle}}</span>
-  		<div id="topmenu" class="btn-group">
-  			<button type="button" class="btn {{popular}}" id="showPopular">Popular</button>
-  			<button type="button" class="btn {{recent}}" id="showRecent">Recent</button>
+      <div id="topmenu" class="btn-group">
+        <button type="button" class="btn {{popular}}" id="showPopular">Popular</button>
+        <button type="button" class="btn {{recent}}" id="showRecent">Recent</button>
         {{#if moderator}}
         <div class="btn-group hidden-phone">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -23,7 +23,7 @@
           </ul>
         </div>
         {{/if}}
-    		<button class="btn hidden-phone">{{loginButtons align="right"}}</button>
+    		<button class="btn">{{loginButtons align="right"}}</button>
   		</div>
   	</div>
 

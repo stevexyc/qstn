@@ -297,19 +297,55 @@ h1, h2,h3 {font-weight: 300;}
 #features dt, #features dd {
     margin-top: 10px;
 }
-
 a#login-sign-in-link {
     font-size: 11px;
     text-decoration: none;
 }
-#top_home #login-sign-in-link {
-    color: white;
-    font-weight: bold;
+#top_home #login-buttons {
+    margin-top: 10px;
+    margin-right: 15px;
 }
-#top_home #login-name-link {
+#top_home #login-sign-in-link, #top_home #login-name-link {
+    display: inline-block;
+    font-size: 11px;
+    padding: 4px 12px;
     color: white;
     font-weight: bold;
+    line-height: 20px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #006dcc;
+    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+    background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+    background-repeat: repeat-x;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    border-color: #0044cc #0044cc #002a80;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);  
+}
+
+#toplist #login-sign-in-link {
+    display: inline-block;
+    font-size: 11px;
+    padding: 4px 10px 0 10px;
+    /*font-weight: bold;*/
+    line-height: 20px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+}
+#top_home #login-dropdown-list {
+    margin: 1px;
 }
 #login-buttons .login-button, .accounts-dialog .login-button {
     background-color: #3399cc;
@@ -328,8 +364,14 @@ a#login-sign-in-link {
 }
 .footer {
 }
-@media screen and (max-width: 480px)  
-{
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .feature-list {
+        left: 350px;
+    }   
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     html,body {
         width: 100%;
         height: 100%;
@@ -414,3 +456,6 @@ a#login-sign-in-link {
         margin-top: 20px;
     }
 }
+
+
+

@@ -55,7 +55,7 @@ Template.pagecontrol.idInURL = ->
 
 # StartPage	
 Template.app.mobile = ->
-	/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
+	/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)
 
 Template.app.yourSession = ->
 	id = Meteor.userId()
