@@ -5,7 +5,6 @@
 
 preserve-inputs
 coffeescript
-bootstrap
 accounts-base
 accounts-password
 accounts-ui

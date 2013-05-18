@@ -1,19 +1,13 @@
+sessions = new Meteor.Collection('Sessions')
+comments = new Meteor.Collection('Comments')
+
 loadFirst = Meteor.subscribe("Sessions")
 Meteor.subscribe("Users")
 Meteor.autosubscribe ->
 	Meteor.subscribe "activeSession", Session.get("urlID")
 	Meteor.subscribe "Comments", Session.get("urlID")
 
-sessions = new Meteor.Collection('Sessions')
-comments = new Meteor.Collection('Comments')
-
 Meteor.startup ->
-	cookies = document.cookie.split(';')
-	for x in cookies
-		names = x.split('=')
-		value = names[0].trim()
-		upvotes.push value
-
 	Deps.autorun ->
 		if not Session.equals 'urlID', null
 			currentSession = sessions.findOne({sessionId:Session.get('urlID')})
@@ -23,6 +17,12 @@ Meteor.startup ->
 			Session.set 'enableTopics', enableTopics
 			Session.set 'enableComments', enableComments
 			Session.set 'enableFilter', enableFilter
+			
+	cookies = document.cookie.split(';')
+	for x in cookies
+		names = x.split('=')
+		value = names[0].trim()
+		upvotes.push value
 
 Session.set 'showing', 'popular'
 Session.set 'questionEdit', null
