@@ -91,8 +91,8 @@ Template.app.events {
 		optnlID = document.getElementById('optionalID').value.trim().toUpperCase()
 		if title.length is 0
 			document.getElementById('error').innerHTML = 'need title name'
-		# else if user.emails[0].verified is false 
-		# 	document.getElementById('error').innerHTML = 'please verify your email'
+		else if (user.emails[0].verified is false) and (sessions.find({owner:Meteor.userId()}).count() is 1)
+			document.getElementById('error').innerHTML = 'please first verify your email'
 		else if (user.tier is 1) and (sessions.find({owner:Meteor.userId()}).count() is 3)
 			document.getElementById('error').innerHTML = 'upgrade to create more sessions'
 		else if sessions.findOne({sessionId:optnlID}) isnt undefined
@@ -114,7 +114,7 @@ Template.app.events {
 			}
 			document.getElementById('sessionTitle').value = ''
 			document.getElementById('optionalID').value = ''
-			document.getElementById('success').innerHTML = 'successfully created ' + title
+			document.getElementById('error').innerHTML = '<span style="color:green">successfully created ' + title + '</span>'
 
 	'click .deleteSession': (e,t) ->
 		sessions.remove this._id

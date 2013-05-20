@@ -11,6 +11,9 @@ Meteor.startup(function(){
             tier: 0
     	})
     };
+
+    process.env.MAIL_URL = 'smtp://postmaster%40generalq.mailgun.org:5m2teynls-19@smtp.mailgun.org:587';
+
 });
 
 Meteor.publish('activeSession', function (urlID) {
@@ -71,7 +74,7 @@ Meteor.methods ({
 })
 
 Accounts.config({
-    // sendVerificationEmail: true,
+    sendVerificationEmail: true,
     forbidClientAccountCreation: false
 });
 
@@ -81,3 +84,57 @@ Accounts.onCreateUser(function(options, user) {
     user.profile = options.profile;
   return user;
 });
+
+Accounts.emailTemplates = {
+  from: "General Q <no-reply@generalQ.com>",
+  siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
+
+  resetPassword: {
+    subject: function(user) {
+      return "Reset your General Q password" + Accounts.emailTemplates.siteName;
+    },
+    text: function(user, url) {
+      var greeting = (user.profile && user.profile.name) ?
+            ("Hello " + user.profile.name + ",") : "Hello,";
+      return greeting + "\n"
+        + "\n"
+        + "To reset your password, simply click the link below.\n"
+        + "\n"
+        + url + "\n"
+        + "\n"
+        + "Thanks, General Q.\n";
+    }
+  },
+  verifyEmail: {
+    subject: function(user) {
+      return "Email Verification with General Q";
+    },
+    text: function(user, url) {
+      var greeting = (user.profile && user.profile.name) ?
+            ("Hello " + user.profile.name + ",") : "Hello,";
+      return greeting + "\n"
+        + "\n"
+        + "To verify your account email with General Q, simply click the link below.\n"
+        + "\n"
+        + url + "\n"
+        + "\n"
+        + "Thanks, General Q.\n";
+    }
+  },
+  enrollAccount: {
+    subject: function(user) {
+      return "An account has been created for you on " + Accounts.emailTemplates.siteName;
+    },
+    text: function(user, url) {
+      var greeting = (user.profile && user.profile.name) ?
+            ("Hello " + user.profile.name + ",") : "Hello,";
+      return greeting + "\n"
+        + "\n"
+        + "To start using the service, simply click the link below.\n"
+        + "\n"
+        + url + "\n"
+        + "\n"
+        + "Thanks.\n";
+    }
+  }
+};
