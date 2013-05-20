@@ -72,7 +72,8 @@ Template.app.allUsers = ->
 	Meteor.users.find({})
 
 Template.app.ownerUsrname = ->
-	Meteor.users.findOne(this.owner).username
+	owner = Meteor.users.findOne(this.owner).username
+	if owner then owner else 'undefined'
 
 Template.app.events {
 	'click #gotofeatures': (e,t) ->
