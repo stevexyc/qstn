@@ -100,11 +100,12 @@
       <div class="container">
         <h3>Your Active Sessions</h3>
         <table class="table">
-          <thead><tr><td>Session Title</td><td>ID / URL</td><td>---</td></tr></thead>
+          <thead><tr><td>Session Title</td><td>ID / URL</td><td>Created</td><td>---</td></tr></thead>
           {{#each yourSession}}
             <tr>
               <td>{{title}}</td>
               <td><a href="/{{sessionId}}">{{sessionId}}</a></td>
+              <td>{{date}}</td>
               {{#if adminOnly}}<td>{{ownerUsrname}}</td>{{/if}}
               <td><button type="button" class="btn btn-mini deleteSession" title="delete session">&times;</button></td>
             </tr>
@@ -119,7 +120,7 @@
       <div class="container">
         <h3>[AdminOnly] Users</h3>
         <table class="table">
-          <thead><tr><td>Username</td><td>Email</td><td>Tier</td></tr></thead>
+          <thead><tr><td>Username</td><td>Email</td><td>Tier</td><td>---</td></tr></thead>
           {{#each allUsers}}
             <tr>
               <td>{{username}}</td>
@@ -129,6 +130,7 @@
                 {{tier}}
                 <i class="icon-chevron-right inc"></i>
               </td>
+              <td><button class="btn btn-mini deleteUser">&times;</button></td>
             </tr>
           {{/each}}
         </table>

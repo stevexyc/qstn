@@ -72,11 +72,11 @@ Template.app.allUsers = ->
 	Meteor.users.find({})
 
 Template.app.ownerUsrname = ->
-	owner = Meteor.users.findOne(this.owner).username
+	owner = Meteor.users.findOne(this.owner)
 	if owner is undefined
 		'undefined'
 	else 
-		owner
+		owner.username
 
 Template.app.events {
 	'click #gotofeatures': (e,t) ->
@@ -107,6 +107,7 @@ Template.app.events {
 			else 
 				sessionId = optnlID
 			userId = Meteor.userId()
+			dt = new Date()
 			sessions.insert {
 				title: title
 				sessionId: sessionId
@@ -115,6 +116,7 @@ Template.app.events {
 				topics: false
 				tags:[]
 				commenting: false
+				date: dt.getMonth()+ 1 + '/' + dt.getDate() + '/' +dt.getFullYear()
 			}
 			document.getElementById('sessionTitle').value = ''
 			document.getElementById('optionalID').value = ''
@@ -131,6 +133,11 @@ Template.app.events {
 	'click .dec': (e,t) ->
 		if adminOnly Meteor.userId() 
 			Meteor.call('decTier', this._id)
+
+	'dblclick .deleteUser': (e,t) ->
+		if adminOnly Meteor.userId()
+			# console.log this._id
+			Meteor.call('deleteUser', this._id)
 }
 
 # QuesionList

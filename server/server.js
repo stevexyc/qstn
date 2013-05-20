@@ -70,6 +70,9 @@ Meteor.methods ({
     },
     decTier: function (userId) {
         Meteor.users.update (userId, {$inc: {tier: -1}})
+    },
+    deleteUser : function (userId) {
+        Meteor.users.remove (userId)
     }
 })
 
