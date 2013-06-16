@@ -6,7 +6,7 @@ meteor bundle bundle.tgz
 tar -zxvf bundle.tgz
 cd bundle/server
 npm uninstall fibers
-npm install fibers
+sudo npm install fibers
 cd ../../
 
 PORT=80 MONGO_URL=mongodb://localhost:27017/ ROOT_URL=http://generalq.com/ node bundle/main.js
