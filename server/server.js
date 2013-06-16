@@ -110,18 +110,23 @@ Accounts.emailTemplates = {
   },
   verifyEmail: {
     subject: function(user) {
-      return "Email Verification with General Q";
+      return "Welcome to General Q!";
     },
     text: function(user, url) {
       var greeting = (user.profile && user.profile.name) ?
-            ("Hello " + user.profile.name + ",") : "Hello,";
+            ("Hello " + user.profile.name + ",") : "Hello and Welcome to General Q!";
       return greeting + "\n"
         + "\n"
-        + "To verify your account email with General Q, simply click the link below.\n"
+        + "Engage your audience by letting them ask questions and vote on the best ones!\n"
         + "\n"
-        + url + "\n"
+        + "To reference the documentation go to docs.generalq.com\n" 
         + "\n"
-        + "Thanks, General Q.\n";
+        + "Feel free to email us at hello@generalq.com\n"
+        + "\n"
+        // + url + "\n"
+        + "\n"
+        + "Thanks, General Q.\n"
+        + "www.generalq.com\n";
     }
   },
   enrollAccount: {

@@ -94,13 +94,13 @@ Template.app.events {
 		user = Meteor.users.findOne(Meteor.userId())
 		optnlID = document.getElementById('optionalID').value.trim().toUpperCase()
 		if title.length is 0
-			document.getElementById('error').innerHTML = 'need title name'
-		else if (user.emails[0].verified is false) and (sessions.find({owner:Meteor.userId()}).count() is 1)
-			document.getElementById('error').innerHTML = 'please first verify your email'
+			document.getElementById('error').innerHTML = 'Need Title Name'
+		# else if (user.emails[0].verified is false) and (sessions.find({owner:Meteor.userId()}).count() is 1)
+		# 	document.getElementById('error').innerHTML = 'please first verify your email'
 		else if (user.tier is 1) and (sessions.find({owner:Meteor.userId()}).count() is 3)
-			document.getElementById('error').innerHTML = 'upgrade to create more sessions'
+			document.getElementById('error').innerHTML = 'Please Upgrade to Create More Sessions'
 		else if sessions.findOne({sessionId:optnlID}) isnt undefined
-			document.getElementById('error').innerHTML = 'Passcode Taken, choose another'
+			document.getElementById('error').innerHTML = 'Passcode Taken, Choose another'
 		else 
 			if optnlID.length is 0
 				sessionId = makeId()
