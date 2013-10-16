@@ -80,7 +80,7 @@ Template.app.ownerUsrname = ->
 
 Template.app.events {
 	'click #gotofeatures': (e,t) ->
-		$('html, body').animate({scrollTop:$('#features').position().top}, 'slow')
+		$('html, body').animate({scrollTop:$('.features').position().top}, 'slow')
 
 	'click #joinSession': (e,t)->
 		joinSession(e,t)
