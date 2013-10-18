@@ -23,6 +23,9 @@
 </template>
 
 <template name="commentModal">
+  {{#if ModalActive}}
+  <div id="darkbackground"></div>
+  {{/if}}
   <div class="modal {{HideModal}}" id="myModal">
     <div class="modal-header">
       <button type="button" class="close hideComment" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -274,7 +274,7 @@ Template.list.events {
 		if e.which is 13
 			Ask(e,t)
 
-	'click .upvote': (e,t)->
+	'tap .upvote, click .upvote': (e,t)->
 		if this._id not in upvotes
 			comments.update this._id, {$inc: {votes: 1 }}
 			upvote(this._id)
@@ -382,6 +382,9 @@ Template.list.events {
 
 Template.commentModal.HideModal = ->
 	Session.get 'showModal'
+
+Template.commentModal.ModalActive = ->
+	Session.equals 'showModal', 'show'
 
 Template.commentModal.Header = ->
 	id = Session.get 'commentID'

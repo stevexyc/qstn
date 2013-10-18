@@ -5,6 +5,18 @@
       <div id="topmenu" class="btn-group">
         <button type="button" class="btn {{popular}}" id="showPopular">Popular</button>
         <button type="button" class="btn {{recent}}" id="showRecent">Recent</button>
+
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            1
+            <!-- <span class="caret"></span> -->
+          </button>
+          <ul class="dropdown-menu pull-right">
+            <li><a>Annoucement1: helloooo, here comes the rain! <br> lets see if this shit works</a></li>
+            <li><a>Annoucement 2</a></li>
+          </ul>
+        </div>
+
         {{#if moderator}}
         <div class="btn-group hidden-phone">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -16,6 +28,7 @@
             {{#if tier2}}
             <li><a id="enableTopics">{{TopicsOption}}</a></li>
             <li><a id="enableComments">{{CommentOption}}</a></li>
+            <li><a id="sendAnnoucement">Annoucements</a></li>
             {{/if}}
             {{#if tier3}}
             <li><a id="export">Download Report</a></li>
